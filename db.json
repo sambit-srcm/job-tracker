@@ -1,0 +1,75 @@
+{
+  "applications": [
+    {
+      "id": "1",
+      "company": "Google",
+      "role": "Senior Frontend Engineer",
+      "status": "Interviewing",
+      "location": "Remote",
+      "workType": "Remote",
+      "date": "2026-06-10",
+      "notes": "Completed technical screen, waiting for team interview"
+    },
+    {
+      "id": "2",
+      "company": "Capgemini",
+      "role": "Staff Software Engineer",
+      "status": "Applied",
+      "location": "San Francisco, CA",
+      "workType": "Hybrid",
+      "date": "2026-06-15",
+      "notes": "Applied through LinkedIn referral"
+    },
+    {
+      "id": "3",
+      "company": "Amazon",
+      "role": "Product Engineer",
+      "status": "Hired",
+      "location": "New York, NY",
+      "workType": "Onsite",
+      "date": "2026-05-20",
+      "notes": "Offer received! Starting July 2nd"
+    },
+    {
+      "id": "4",
+      "company": "Notion",
+      "role": "Full Stack Engineer",
+      "status": "Rejected",
+      "location": "Remote",
+      "workType": "Remote",
+      "date": "2026-06-01",
+      "notes": "Not a fit for current team needs"
+    },
+    {
+      "id": "5",
+      "company": "Figma",
+      "role": "Frontend Engineer",
+      "status": "Applied",
+      "location": "San Francisco, CA",
+      "workType": "Hybrid",
+      "date": "2026-06-18",
+      "notes": ""
+    },
+    {
+      "company": "Mindfire",
+      "role": "AI Engineer",
+      "status": "Applied",
+      "workType": "Remote",
+      "location": "",
+      "date": "2026-06-22",
+      "notes": "",
+      "id": "bPh1hhZUM04"
+    },
+    {
+      "company": "Mindfire",
+      "role": "Senior AI Engineer",
+      "status": "Applied",
+      "workType": "Remote",
+      "location": "",
+      "date": "2026-06-17",
+      "notes": "test",
+      "id": "cb-enl_40ao"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
