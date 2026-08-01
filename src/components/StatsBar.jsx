@@ -11,7 +11,10 @@ export function StatsBar({ applications }) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
       {STATS.map(({ key, label, icon: Icon, color, bg }) => (
-        <div key={key} className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3">
+        <div
+          key={key}
+          className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3"
+        >
           <div className={`rounded-lg p-2 ${bg}`}>
             <Icon className={`h-4 w-4 ${color}`} />
           </div>
