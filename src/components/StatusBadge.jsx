@@ -5,7 +5,12 @@ import { STATUS_CONFIG, STATUSES } from '@/constants'
 export function StatusBadge({ status }) {
   const config = STATUS_CONFIG[status] ?? STATUS_CONFIG.Applied
   return (
-    <span className={cn('inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium', config.pill)}>
+    <span
+      className={cn(
+        'inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium',
+        config.pill
+      )}
+    >
       <span className={cn('h-1.5 w-1.5 rounded-full', config.dot)} />
       {status}
     </span>

@@ -8,7 +8,10 @@
     "api": "json-server db.json --port 3001",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.17",
@@ -29,6 +32,8 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.0.0",
     "@types/react": "^19.2.14",
@@ -36,13 +41,26 @@
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.5.0",
     "eslint": "^10.3.0",
+    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "husky": "^9.1.7",
     "json-server": "^1.0.0-beta.15",
+    "lint-staged": "^17.3.0",
     "playwright": "^1.61.0",
     "postcss": "^8.5.15",
+    "prettier": "^3.9.6",
     "tailwindcss": "^3.4.19",
     "vite": "^8.0.12"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,md,json}": [
+      "prettier --write"
+    ]
   }
 }

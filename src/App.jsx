@@ -4,8 +4,13 @@ import { ApplicationTable } from '@/components/ApplicationTable'
 import { StatsBar } from '@/components/StatsBar'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { getApplications, createApplication, updateApplication, deleteApplication } from '@/api/jobs'
-import { Briefcase, AlertCircle, RefreshCw } from 'lucide-react'
+import {
+  getApplications,
+  createApplication,
+  updateApplication,
+  deleteApplication,
+} from '@/api/jobs'
+import { AlertCircle, RefreshCw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export default function App() {
@@ -28,7 +33,11 @@ export default function App() {
     }
   }, [])
 
-  useEffect(() => { load() }, [load])
+  useEffect(() => {
+    // Fetch on mount; this is a genuine external-system sync, not derived state
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    load()
+  }, [load])
 
   // Handle both create and update depending on whether an edit target is set
   const handleSubmit = async (form) => {
@@ -36,11 +45,11 @@ export default function App() {
     try {
       if (editTarget) {
         const updated = await updateApplication(editTarget.id, { ...form, id: editTarget.id })
-        setApplications(prev => prev.map(a => a.id === editTarget.id ? updated : a))
+        setApplications((prev) => prev.map((a) => (a.id === editTarget.id ? updated : a)))
         setEditTarget(null)
       } else {
         const created = await createApplication(form)
-        setApplications(prev => [...prev, created])
+        setApplications((prev) => [...prev, created])
       }
     } catch {
       setError('Failed to save. Please try again.')
@@ -54,7 +63,7 @@ export default function App() {
     setLoading(true)
     try {
       await deleteApplication(id)
-      setApplications(prev => prev.filter(a => a.id !== id))
+      setApplications((prev) => prev.filter((a) => a.id !== id))
       if (editTarget?.id === id) setEditTarget(null)
     } catch {
       setError('Failed to delete. Please try again.')
@@ -66,7 +75,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <div className="mx-auto max-w-screen-2xl px-4 py-8 sm:px-6 lg:px-8">
-
         {/* Header */}
         <div className="mb-8 flex items-center gap-3">
           <div>
@@ -80,7 +88,12 @@ export default function App() {
           <div className="mb-6 flex items-center gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-600">
             <AlertCircle className="h-4 w-4 shrink-0" />
             <span className="flex-1 text-sm">{error}</span>
-            <Button size="sm" variant="ghost" onClick={load} className="h-7 px-2 text-red-600 hover:bg-red-100">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={load}
+              className="h-7 px-2 text-red-600 hover:bg-red-100"
+            >
               <RefreshCw className="h-3.5 w-3.5" />
             </Button>
           </div>
@@ -93,7 +106,6 @@ export default function App() {
 
         {/* Main layout */}
         <div className="grid gap-6 lg:grid-cols-[360px,1fr]">
-
           {/* Form panel */}
           <Card className="border-gray-200 bg-white h-fit lg:sticky lg:top-8">
             <CardHeader className="pb-4">

@@ -1,4 +1,12 @@
-import { Briefcase, MessageSquare, CheckCircle2, XCircle, Wifi, Building2, MapPin } from 'lucide-react'
+import {
+  Briefcase,
+  MessageSquare,
+  CheckCircle2,
+  XCircle,
+  Wifi,
+  Building2,
+  MapPin,
+} from 'lucide-react'
 
 // Base URL for the json-server mock API
 export const API_BASE_URL = 'http://localhost:3001'
@@ -28,10 +36,34 @@ export const STATUSES = Object.keys(STATUS_CONFIG)
 
 // Display metadata for each status stat tile
 export const STATS = [
-  { key: 'Applied',      label: 'Applied',      icon: Briefcase,    color: 'text-indigo-400', bg: 'bg-indigo-500/10' },
-  { key: 'Interviewing', label: 'Interviewing', icon: MessageSquare, color: 'text-amber-400',  bg: 'bg-amber-500/10'  },
-  { key: 'Hired',        label: 'Hired',        icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-  { key: 'Rejected',     label: 'Rejected',     icon: XCircle,      color: 'text-rose-400',   bg: 'bg-rose-500/10'   },
+  {
+    key: 'Applied',
+    label: 'Applied',
+    icon: Briefcase,
+    color: 'text-indigo-400',
+    bg: 'bg-indigo-500/10',
+  },
+  {
+    key: 'Interviewing',
+    label: 'Interviewing',
+    icon: MessageSquare,
+    color: 'text-amber-400',
+    bg: 'bg-amber-500/10',
+  },
+  {
+    key: 'Hired',
+    label: 'Hired',
+    icon: CheckCircle2,
+    color: 'text-emerald-400',
+    bg: 'bg-emerald-500/10',
+  },
+  {
+    key: 'Rejected',
+    label: 'Rejected',
+    icon: XCircle,
+    color: 'text-rose-400',
+    bg: 'bg-rose-500/10',
+  },
 ]
 
 // Valid work arrangement options for the form dropdown

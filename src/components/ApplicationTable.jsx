@@ -1,14 +1,25 @@
 import { useState } from 'react'
 import { StatusBadge } from '@/components/StatusBadge'
 import {
-  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
-  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Pencil, Trash2, Search, ChevronUp, ChevronDown } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select'
 import { STATUSES } from '@/constants'
 
@@ -22,7 +33,11 @@ function SortButton({ label, field, sort, onSort }) {
     >
       {label}
       {active ? (
-        sort.dir === 'asc' ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />
+        sort.dir === 'asc' ? (
+          <ChevronUp className="h-3 w-3" />
+        ) : (
+          <ChevronDown className="h-3 w-3" />
+        )
       ) : (
         <ChevronDown className="h-3 w-3 opacity-30" />
       )}
@@ -38,14 +53,17 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
 
   // Toggle direction if already sorted by this field, otherwise sort asc
   const handleSort = (field) => {
-    setSort(s => s.field === field ? { field, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { field, dir: 'asc' })
+    setSort((s) =>
+      s.field === field ? { field, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { field, dir: 'asc' }
+    )
   }
 
   // Apply search, status filter, and sort to the applications list
   const filtered = applications
-    .filter(a => {
+    .filter((a) => {
       const q = search.toLowerCase()
-      const matchSearch = !q || a.company.toLowerCase().includes(q) || a.role.toLowerCase().includes(q)
+      const matchSearch =
+        !q || a.company.toLowerCase().includes(q) || a.role.toLowerCase().includes(q)
       const matchStatus = filterStatus === 'All' || a.status === filterStatus
       return matchSearch && matchStatus
     })
@@ -63,7 +81,7 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
           <Input
             placeholder="Search company or role…"
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             className="pl-9 border-gray-300 bg-white text-gray-900 placeholder:text-gray-400"
           />
         </div>
@@ -73,7 +91,11 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
           </SelectTrigger>
           <SelectContent className="bg-white text-gray-900">
             <SelectItem value="All">All Statuses</SelectItem>
-            {STATUSES.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+            {STATUSES.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -130,10 +152,18 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
                       </span>
                     </td>
                     <td className="px-4 py-3 hidden lg:table-cell text-gray-500 text-xs">
-                      {app.date ? new Date(app.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—'}
+                      {app.date
+                        ? new Date(app.date + 'T00:00:00').toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
+                          })
+                        : '—'}
                     </td>
                     <td className="px-4 py-3 hidden xl:table-cell text-gray-500 min-w-[200px]">
-                      <span className="block break-words text-xs whitespace-pre-wrap">{app.notes || '—'}</span>
+                      <span className="block break-words text-xs whitespace-pre-wrap">
+                        {app.notes || '—'}
+                      </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1 justify-end">
@@ -161,11 +191,17 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
                             <AlertDialogHeader>
                               <AlertDialogTitle>Delete application?</AlertDialogTitle>
                               <AlertDialogDescription className="text-gray-500">
-                                This will permanently remove <strong className="text-gray-800">{app.company} — {app.role}</strong>. This action cannot be undone.
+                                This will permanently remove{' '}
+                                <strong className="text-gray-800">
+                                  {app.company} — {app.role}
+                                </strong>
+                                . This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel className="border-gray-300 text-white hover:bg-gray-100">Cancel</AlertDialogCancel>
+                              <AlertDialogCancel className="border-gray-300 text-white hover:bg-gray-100">
+                                Cancel
+                              </AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => onDelete(app.id)}
                                 className="bg-red-600 hover:bg-red-700 text-white"
@@ -188,7 +224,8 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
       {/* Footer count reflects current filter state */}
       {filtered.length > 0 && (
         <p className="text-xs text-gray-400 text-right">
-          Showing {filtered.length} of {applications.length} application{applications.length !== 1 ? 's' : ''}
+          Showing {filtered.length} of {applications.length} application
+          {applications.length !== 1 ? 's' : ''}
         </p>
       )}
     </div>
