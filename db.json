@@ -49,26 +49,6 @@
       "workType": "Hybrid",
       "date": "2026-06-18",
       "notes": ""
-    },
-    {
-      "company": "Mindfire",
-      "role": "AI Engineer",
-      "status": "Applied",
-      "workType": "Remote",
-      "location": "",
-      "date": "2026-06-22",
-      "notes": "",
-      "id": "bPh1hhZUM04"
-    },
-    {
-      "company": "Mindfire",
-      "role": "Senior AI Engineer",
-      "status": "Applied",
-      "workType": "Remote",
-      "location": "",
-      "date": "2026-06-17",
-      "notes": "test",
-      "id": "cb-enl_40ao"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
