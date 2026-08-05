@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { STATUS_CONFIG, STATUSES } from '@/constants'
+import { STATUS_CONFIG } from '@/constants'
 
 // Renders a color-coded pill with a status dot for a given application status
 export function StatusBadge({ status }) {
@@ -16,5 +16,3 @@ export function StatusBadge({ status }) {
     </span>
   )
 }
-
-export { STATUSES }
