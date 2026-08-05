@@ -203,6 +203,7 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
             type="button"
             variant="outline"
             onClick={onCancel}
+            aria-label="Cancel editing"
             className="border-gray-300 text-gray-600 hover:bg-gray-100"
           >
             <X className="h-4 w-4" />

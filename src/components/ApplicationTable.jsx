@@ -172,6 +172,7 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
                           size="icon"
                           variant="ghost"
                           onClick={() => onEdit(app)}
+                          aria-label={`Edit ${app.company} — ${app.role}`}
                           className="h-8 w-8 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50"
                         >
                           <Pencil className="h-3.5 w-3.5" />
@@ -181,6 +182,7 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
                           size="icon"
                           variant="ghost"
                           onClick={() => setDeleteTarget(app)}
+                          aria-label={`Delete ${app.company} — ${app.role}`}
                           className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
