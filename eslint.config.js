@@ -9,7 +9,7 @@ export default defineConfig([
   globalIgnores(['dist']),
   {
     files: ['**/*.{js,jsx}'],
-    ignores: ['*.config.js'],
+    ignores: ['*.config.js', '**/*.test.{js,jsx}', 'e2e/**'],
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
@@ -23,6 +23,21 @@ export default defineConfig([
   },
   {
     files: ['*.config.js'],
+    extends: [js.configs.recommended, eslintConfigPrettier],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
+  {
+    files: ['**/*.test.{js,jsx}'],
+    extends: [js.configs.recommended, reactHooks.configs.flat.recommended, eslintConfigPrettier],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.vitest },
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    },
+  },
+  {
+    files: ['e2e/**/*.{js,jsx}'],
     extends: [js.configs.recommended, eslintConfigPrettier],
     languageOptions: {
       globals: globals.node,

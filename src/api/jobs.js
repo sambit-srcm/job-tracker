@@ -11,6 +11,9 @@ const validateRequest = (data) => {
   if (!data.date) throw new Error('Date is required')
   if (!STATUSES.includes(data.status)) throw new Error(`Invalid status: ${data.status}`)
   if (!WORK_TYPES.includes(data.workType)) throw new Error(`Invalid work type: ${data.workType}`)
+  if (data.workType !== 'Remote' && !data.location?.trim()) {
+    throw new Error('Location is required unless work type is Remote')
+  }
 }
 
 // Validates that the API response has the expected shape

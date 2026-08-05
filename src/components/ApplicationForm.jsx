@@ -10,25 +10,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { STATUSES, WORK_TYPES, EMPTY_FORM } from '@/constants'
+import { STATUSES, WORK_TYPES, getEmptyForm } from '@/constants'
 import { PlusCircle, Save, X } from 'lucide-react'
 
 // Form for creating a new application or editing an existing one
 export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
   const [prevEditTarget, setPrevEditTarget] = useState(editTarget)
-  const [form, setForm] = useState(editTarget ? { ...editTarget } : EMPTY_FORM)
+  const [form, setForm] = useState(editTarget ? { ...editTarget } : getEmptyForm())
   const [errors, setErrors] = useState({})
 
   // Pre-fill the form when an edit target is selected (adjusted during render, not in an effect)
   if (editTarget !== prevEditTarget) {
     setPrevEditTarget(editTarget)
-    setForm(editTarget ? { ...editTarget } : EMPTY_FORM)
+    setForm(editTarget ? { ...editTarget } : getEmptyForm())
     setErrors({})
   }
 
-  // Generic field setter; clears the error for that field on change
+  // Generic field setter; clears the error for that field on change.
+  // Switching to Remote clears location, since it's not shown/relevant for remote roles.
   const set = (k, v) => {
-    setForm((f) => ({ ...f, [k]: v }))
+    setForm((f) => ({
+      ...f,
+      [k]: v,
+      ...(k === 'workType' && v === 'Remote' ? { location: '' } : {}),
+    }))
     if (errors[k]) setErrors((e) => ({ ...e, [k]: null }))
   }
 
@@ -38,20 +43,26 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
     if (!form.company.trim()) e.company = 'Company is required'
     if (!form.role.trim()) e.role = 'Role is required'
     if (!form.date) e.date = 'Date is required'
+    if (form.workType !== 'Remote' && !form.location.trim()) e.location = 'Location is required'
     return e
   }
 
-  // Show inline errors on invalid submit, otherwise pass form up
-  const handleSubmit = (e) => {
+  // Show inline errors on invalid submit; otherwise pass form up and only reset on success
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const e2 = validate()
     if (Object.keys(e2).length > 0) {
       setErrors(e2)
       return
     }
-    onSubmit(form)
+    try {
+      await onSubmit(form)
+    } catch {
+      // Save failed — parent already surfaced the error; keep the user's input intact
+      return
+    }
     if (!editTarget) {
-      setForm(EMPTY_FORM)
+      setForm(getEmptyForm())
       setErrors({})
     }
   }
@@ -127,15 +138,16 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
         {form.workType !== 'Remote' && (
           <div className="space-y-1.5">
             <Label htmlFor="location" className="text-gray-700">
-              Location
+              Location *
             </Label>
             <Input
               id="location"
               placeholder="e.g. San Francisco, CA"
               value={form.location}
               onChange={(e) => set('location', e.target.value)}
-              className="border-gray-300 bg-white text-gray-900 placeholder:text-gray-400"
+              className={`bg-white text-gray-900 placeholder:text-gray-400 ${errors.location ? 'border-red-400 focus-visible:ring-red-400' : 'border-gray-300'}`}
             />
+            {errors.location && <p className="text-xs text-red-500">{errors.location}</p>}
           </div>
         )}
         <div className="space-y-1.5">
