@@ -37,6 +37,9 @@ npm run dev
 | `npm run lint`         | Run ESLint                                              |
 | `npm run format`       | Format the codebase with Prettier                       |
 | `npm run format:check` | Check formatting without writing changes                |
+| `npm run test`         | Run unit tests (Vitest)                                 |
+| `npm run test:watch`   | Run unit tests in watch mode                            |
+| `npm run test:e2e`     | Run end-to-end tests (Playwright)                       |
 
 ## Project structure
 
@@ -53,7 +56,7 @@ db.json          seed data for the mock API
 
 - ESLint + Prettier, enforced via Husky pre-commit hooks (`lint-staged`)
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/), enforced via commitlint on the `commit-msg` hook
-- GitHub Actions CI runs lint, format check, build, and a Gitleaks secret scan on every PR
+- GitHub Actions CI runs lint, format check, unit tests, build, an e2e smoke test, and a Gitleaks secret scan on every PR
 - Branches follow a `feature/`, `bugfix/`, `hotfix/`, `build/`, etc. prefix convention — see recent PRs for examples
 
 ## License
