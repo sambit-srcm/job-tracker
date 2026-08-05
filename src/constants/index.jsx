@@ -1,12 +1,4 @@
-import {
-  Briefcase,
-  MessageSquare,
-  CheckCircle2,
-  XCircle,
-  Wifi,
-  Building2,
-  MapPin,
-} from 'lucide-react'
+import { Briefcase, MessageSquare, CheckCircle2, XCircle } from 'lucide-react'
 
 // Base URL for the json-server mock API
 export const API_BASE_URL = 'http://localhost:3001'
@@ -68,13 +60,6 @@ export const STATS = [
 
 // Valid work arrangement options for the form dropdown
 export const WORK_TYPES = ['Remote', 'Hybrid', 'Onsite']
-
-// Icon elements mapped to each work type for the table location column
-export const WORK_ICON = {
-  Remote: <Wifi className="h-3 w-3" />,
-  Hybrid: <Building2 className="h-3 w-3" />,
-  Onsite: <MapPin className="h-3 w-3" />,
-}
 
 // Blank form state used when creating a new application; date defaults to today.
 // A factory (not a shared constant) so each call gets today's date and its own object,
