@@ -5,7 +5,7 @@ A small React app for tracking job applications — company, role, status, work 
 ## Stack
 
 - [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) primitives (Radix UI under the hood)
+- [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/) primitives
 - [json-server](https://github.com/typicode/json-server) as a mock REST API backed by `db.json`, called via `axios`
 
 ## Getting started
