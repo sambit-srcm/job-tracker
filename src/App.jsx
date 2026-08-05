@@ -96,6 +96,7 @@ export default function App() {
               size="sm"
               variant="ghost"
               onClick={load}
+              aria-label="Retry loading applications"
               className="h-7 px-2 text-red-600 hover:bg-red-100"
             >
               <RefreshCw className="h-3.5 w-3.5" />
