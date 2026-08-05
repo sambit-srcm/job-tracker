@@ -13,6 +13,14 @@ import {
 import { STATUSES, WORK_TYPES, getEmptyForm } from '@/constants'
 import { PlusCircle, Save, X } from 'lucide-react'
 
+const INPUT_BASE_CLASS = 'bg-white text-gray-900 placeholder:text-gray-400'
+const INPUT_ERROR_CLASS = 'border-red-400 focus-visible:ring-red-400'
+const INPUT_DEFAULT_CLASS = 'border-gray-300'
+
+// Shared input styling, swapping in the error border/ring when a field has a validation error
+const inputClass = (hasError, base = INPUT_BASE_CLASS) =>
+  `${base} ${hasError ? INPUT_ERROR_CLASS : INPUT_DEFAULT_CLASS}`
+
 // Form for creating a new application or editing an existing one
 export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
   const [prevEditTarget, setPrevEditTarget] = useState(editTarget)
@@ -81,7 +89,7 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
             placeholder="e.g. Stripe"
             value={form.company}
             onChange={(e) => set('company', e.target.value)}
-            className={`bg-white text-gray-900 placeholder:text-gray-400 ${errors.company ? 'border-red-400 focus-visible:ring-red-400' : 'border-gray-300'}`}
+            className={inputClass(!!errors.company)}
           />
           {errors.company && <p className="text-xs text-red-500">{errors.company}</p>}
         </div>
@@ -94,7 +102,7 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
             placeholder="e.g. Senior Engineer"
             value={form.role}
             onChange={(e) => set('role', e.target.value)}
-            className={`bg-white text-gray-900 placeholder:text-gray-400 ${errors.role ? 'border-red-400 focus-visible:ring-red-400' : 'border-gray-300'}`}
+            className={inputClass(!!errors.role)}
           />
           {errors.role && <p className="text-xs text-red-500">{errors.role}</p>}
         </div>
@@ -145,7 +153,7 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
               placeholder="e.g. San Francisco, CA"
               value={form.location}
               onChange={(e) => set('location', e.target.value)}
-              className={`bg-white text-gray-900 placeholder:text-gray-400 ${errors.location ? 'border-red-400 focus-visible:ring-red-400' : 'border-gray-300'}`}
+              className={inputClass(!!errors.location)}
             />
             {errors.location && <p className="text-xs text-red-500">{errors.location}</p>}
           </div>
@@ -159,7 +167,7 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
             type="date"
             value={form.date}
             onChange={(e) => set('date', e.target.value)}
-            className={`bg-white text-gray-900 ${errors.date ? 'border-red-400 focus-visible:ring-red-400' : 'border-gray-300'}`}
+            className={inputClass(!!errors.date, 'bg-white text-gray-900')}
           />
           {errors.date && <p className="text-xs text-red-500">{errors.date}</p>}
         </div>
