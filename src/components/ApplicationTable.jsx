@@ -9,7 +9,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Pencil, Trash2, Search, ChevronUp, ChevronDown } from 'lucide-react'
@@ -50,6 +49,7 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
   const [search, setSearch] = useState('')
   const [filterStatus, setFilterStatus] = useState('All')
   const [sort, setSort] = useState({ field: 'date', dir: 'desc' })
+  const [deleteTarget, setDeleteTarget] = useState(null)
 
   // Toggle direction if already sorted by this field, otherwise sort asc
   const handleSort = (field) => {
@@ -176,41 +176,15 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
                         >
                           <Pencil className="h-3.5 w-3.5" />
                         </Button>
-                        {/* Delete with confirmation dialog */}
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button
-                              size="icon"
-                              variant="ghost"
-                              className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent className="border-gray-200 bg-white text-gray-900">
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Delete application?</AlertDialogTitle>
-                              <AlertDialogDescription className="text-gray-500">
-                                This will permanently remove{' '}
-                                <strong className="text-gray-800">
-                                  {app.company} — {app.role}
-                                </strong>
-                                . This action cannot be undone.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel className="border-gray-300 text-white hover:bg-gray-100">
-                                Cancel
-                              </AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => onDelete(app.id)}
-                                className="bg-red-600 hover:bg-red-700 text-white"
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                        {/* Delete with confirmation dialog (single shared dialog, see below) */}
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          onClick={() => setDeleteTarget(app)}
+                          className="h-8 w-8 text-gray-400 hover:text-red-600 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
                       </div>
                     </td>
                   </tr>
@@ -228,6 +202,36 @@ export function ApplicationTable({ applications, onEdit, onDelete, loading }) {
           {applications.length !== 1 ? 's' : ''}
         </p>
       )}
+
+      {/* Single shared delete-confirmation dialog, controlled by deleteTarget */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent className="border-gray-200 bg-white text-gray-900">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete application?</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-500">
+              This will permanently remove{' '}
+              <strong className="text-gray-800">
+                {deleteTarget?.company} — {deleteTarget?.role}
+              </strong>
+              . This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="border-gray-300 text-gray-600 hover:bg-gray-100">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                onDelete(deleteTarget.id)
+                setDeleteTarget(null)
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
