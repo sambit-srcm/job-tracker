@@ -50,9 +50,47 @@ describe('createApplication / updateApplication validation', () => {
     expect(() => createApplication({ ...validApp, status: 'Ghosted' })).toThrow(/invalid status/i)
   })
 
+  it('rejects when role is missing', () => {
+    expect(() => createApplication({ ...validApp, role: '  ' })).toThrow(/role/i)
+  })
+
+  it('rejects when date is missing', () => {
+    expect(() => createApplication({ ...validApp, date: '' })).toThrow(/date/i)
+  })
+
+  it('rejects an unknown work type', () => {
+    expect(() => createApplication({ ...validApp, workType: 'Space' })).toThrow(
+      /invalid work type/i
+    )
+  })
+
+  it('rejects a response missing required fields', async () => {
+    mockInstance.post.mockResolvedValue({ data: null })
+    await expect(createApplication(validApp)).rejects.toThrow(/invalid response/i)
+
+    mockInstance.post.mockResolvedValue({ data: { company: 'Acme', role: 'Engineer' } })
+    await expect(createApplication(validApp)).rejects.toThrow(/missing id/i)
+
+    mockInstance.post.mockResolvedValue({ data: { id: '1', role: 'Engineer' } })
+    await expect(createApplication(validApp)).rejects.toThrow(/missing company/i)
+
+    mockInstance.post.mockResolvedValue({ data: { id: '1', company: 'Acme' } })
+    await expect(createApplication(validApp)).rejects.toThrow(/missing role/i)
+  })
+
   it('updateApplication requires an id', () => {
     expect(() => updateApplication(undefined, validApp)).toThrow(/id is required/i)
     expect(mockInstance.put).not.toHaveBeenCalled()
+  })
+
+  it('updateApplication resolves with the validated response on success', async () => {
+    mockInstance.put.mockResolvedValue({ data: { id: '1', company: 'Acme', role: 'Engineer' } })
+    await expect(updateApplication('1', validApp)).resolves.toEqual({
+      id: '1',
+      company: 'Acme',
+      role: 'Engineer',
+    })
+    expect(mockInstance.put).toHaveBeenCalledWith('/applications/1', validApp)
   })
 })
 
@@ -75,5 +113,11 @@ describe('getApplications', () => {
 describe('deleteApplication', () => {
   it('requires an id', () => {
     expect(() => deleteApplication()).toThrow(/id is required/i)
+  })
+
+  it('calls the delete endpoint when an id is given', async () => {
+    mockInstance.delete.mockResolvedValue({ data: {} })
+    await deleteApplication('1')
+    expect(mockInstance.delete).toHaveBeenCalledWith('/applications/1')
   })
 })

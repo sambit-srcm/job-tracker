@@ -14,5 +14,11 @@ export default defineConfig({
     setupFiles: './src/test/setup.js',
     globals: true,
     exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**'],
+    coverage: {
+      provider: 'v8',
+      all: true,
+      include: ['src/**/*.{js,jsx}'],
+      exclude: ['src/main.jsx', 'src/test/**', '**/*.test.*'],
+    },
   },
 })
