@@ -26,7 +26,8 @@ export default function App() {
     try {
       const data = await getApplications()
       setApplications(data)
-    } catch {
+    } catch (err) {
+      console.error('Failed to load applications:', err)
       setError('Cannot reach the API server')
     } finally {
       setLoading(false)
@@ -39,7 +40,8 @@ export default function App() {
     load()
   }, [load])
 
-  // Handle both create and update depending on whether an edit target is set
+  // Handle both create and update depending on whether an edit target is set.
+  // Rethrows on failure so ApplicationForm knows not to clear the user's input.
   const handleSubmit = async (form) => {
     setLoading(true)
     try {
@@ -51,8 +53,10 @@ export default function App() {
         const created = await createApplication(form)
         setApplications((prev) => [...prev, created])
       }
-    } catch {
+    } catch (err) {
+      console.error('Failed to save application:', err)
       setError('Failed to save. Please try again.')
+      throw err
     } finally {
       setLoading(false)
     }
@@ -65,7 +69,8 @@ export default function App() {
       await deleteApplication(id)
       setApplications((prev) => prev.filter((a) => a.id !== id))
       if (editTarget?.id === id) setEditTarget(null)
-    } catch {
+    } catch (err) {
+      console.error('Failed to delete application:', err)
       setError('Failed to delete. Please try again.')
     } finally {
       setLoading(false)
@@ -79,7 +84,6 @@ export default function App() {
         <div className="mb-8 flex items-center gap-3">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Job Tracker</h1>
-            <p className="text-sm text-gray-500"></p>
           </div>
         </div>
 
@@ -92,6 +96,7 @@ export default function App() {
               size="sm"
               variant="ghost"
               onClick={load}
+              aria-label="Retry loading applications"
               className="h-7 px-2 text-red-600 hover:bg-red-100"
             >
               <RefreshCw className="h-3.5 w-3.5" />
