@@ -2,7 +2,13 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import axios from 'axios'
 
 vi.mock('axios', () => {
-  const instance = { get: vi.fn(), post: vi.fn(), put: vi.fn(), delete: vi.fn() }
+  const instance = {
+    get: vi.fn(),
+    post: vi.fn(),
+    put: vi.fn(),
+    delete: vi.fn(),
+    interceptors: { response: { use: vi.fn() } },
+  }
   return { default: { create: vi.fn(() => instance) } }
 })
 

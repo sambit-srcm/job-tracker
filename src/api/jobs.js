@@ -1,8 +1,15 @@
 import axios from 'axios'
 import { API_BASE_URL, STATUSES, WORK_TYPES } from '@/constants'
 
-// Axios instance pointing at the json-server mock API
+// Axios instance pointing at the backend API
 const api = axios.create({ baseURL: API_BASE_URL })
+
+// The backend returns errors as { error: "<message>" }. Normalize that into a plain
+// Error so callers can just read err.message without reaching into axios internals.
+api.interceptors.response.use(
+  (response) => response,
+  (error) => Promise.reject(new Error(error.response?.data?.error || error.message))
+)
 
 // Validates that a request payload has the required fields before sending
 const validateRequest = (data) => {
@@ -25,9 +32,9 @@ const validateResponse = (data) => {
   return data
 }
 
-// Fetch all job applications
-export const getApplications = () =>
-  api.get('/applications').then((r) => {
+// Fetch job applications, optionally filtered by status and/or work type
+export const getApplications = ({ status, workType } = {}) =>
+  api.get('/applications', { params: { status, workType } }).then((r) => {
     if (!Array.isArray(r.data)) throw new Error('Expected an array from server')
     return r.data
   })

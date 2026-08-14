@@ -1,7 +1,7 @@
 import { Briefcase, MessageSquare, CheckCircle2, XCircle } from 'lucide-react'
 
-// Base URL for the json-server mock API
-export const API_BASE_URL = 'http://localhost:3001'
+// Base URL for the backend API
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'
 
 // Color and animation config keyed by application status
 export const STATUS_CONFIG = {
