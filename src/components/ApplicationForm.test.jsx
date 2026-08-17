@@ -198,6 +198,29 @@ describe('ApplicationForm', () => {
     expect(await screen.findByText('Location is required')).toBeInTheDocument()
   })
 
+  it('does not crash on submit when a legacy record has no location field at all', async () => {
+    const user = userEvent.setup()
+    render(
+      <ApplicationForm
+        editTarget={{
+          id: '1',
+          company: 'Acme',
+          role: 'Engineer',
+          status: 'Applied',
+          workType: 'Onsite',
+          date: '2026-01-01',
+          notes: '',
+        }}
+        onSubmit={vi.fn()}
+        onCancel={() => {}}
+        loading={false}
+      />
+    )
+
+    await user.click(screen.getByRole('button', { name: /update/i }))
+    expect(await screen.findByText('Location is required')).toBeInTheDocument()
+  })
+
   it('shows a date error on submit when the date is blank', async () => {
     const user = userEvent.setup()
     render(
