@@ -30,12 +30,14 @@ npm run dev
 A multi-stage `Dockerfile` builds the app with Vite and serves the static output with nginx.
 
 ```bash
-docker build -t job-tracker-frontend --build-arg VITE_API_BASE_URL=https://your-api .
-docker run -p 8080:80 job-tracker-frontend
-# app on http://localhost:8080
+docker build -t job-tracker-frontend --build-arg VITE_API_BASE_URL=http://localhost:8080 .
+docker run -p 3000:80 job-tracker-frontend
+# app on http://localhost:3000
 ```
 
-`VITE_API_BASE_URL` is inlined into the JS bundle at build time (Vite env vars aren't read at
+Port `3000` on the host is mapped to nginx's port 80 in the container; pick any free host port —
+just avoid `8080`, since that's the backend's default port (see above). `VITE_API_BASE_URL` is
+inlined into the JS bundle at build time (Vite env vars aren't read at
 runtime), so it must be passed as a `--build-arg`, not a `docker run -e`. nginx is configured
 (`nginx.conf`) with an SPA fallback so client-side routes work on a hard refresh.
 
