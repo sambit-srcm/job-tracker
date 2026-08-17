@@ -51,7 +51,7 @@ export function ApplicationForm({ editTarget, onSubmit, onCancel, loading }) {
     if (!form.company.trim()) e.company = 'Company is required'
     if (!form.role.trim()) e.role = 'Role is required'
     if (!form.date) e.date = 'Date is required'
-    if (form.workType !== 'Remote' && !form.location.trim()) e.location = 'Location is required'
+    if (form.workType !== 'Remote' && !form.location?.trim()) e.location = 'Location is required'
     return e
   }
 
